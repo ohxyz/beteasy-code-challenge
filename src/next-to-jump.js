@@ -6,8 +6,6 @@ export class NextToJump extends React.Component {
     constructor( props ) {
 
         super( props );
-
-        this.raceTypes = [ 'all', 'thoroughbred', 'greyhounds', 'trots' ];
     }
 
     makeClassName() {
@@ -18,29 +16,6 @@ export class NextToJump extends React.Component {
         }
 
         return this.props.classNamePrefix;
-    }
-
-    renderPickBar() {
-
-        return  <div className={ this.makeClassName( 'pick-bar') }>
-                {
-                    this.raceTypes.map( type => {
-
-                        let className = this.makeClassName( 'race-type' );
-                        className = `${className} ${className}--active`;
-                        
-                        return  <span key={ type } 
-                                      className={ className }
-                                      onClick={ this.handleRaceTypeClick } 
-                                >
-                                    { type === "all" && "All" }
-                                    { type === "trots" && renderHarnessIcon() }
-                                    { type === "greyhounds" && renderGreyhoundIcon() }
-                                    { type === "thoroughbred" && renderHorseIcon() }
-                                </span>
-                    } )
-                }
-                </div>
     }
 
     renderPickList() {
@@ -79,7 +54,6 @@ export class NextToJump extends React.Component {
     render() {
 
         return  <div className={ this.makeClassName( 'main' ) } >
-                    { this.renderPickBar() }
                     { this.renderPickList() }
                 </div>
     }

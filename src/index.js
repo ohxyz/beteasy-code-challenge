@@ -1,8 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { NextToJump } from './next-to-jump.js';
-import { countDown, cloneByJSON } from './util.js';
-import { renderLogo } from './icons.js';
+import { countDown, cloneByJSON, makeClassName } from './util.js';
+import { renderLogo, renderHorseIcon, renderHarnessIcon, renderGreyhoundIcon } from './icons.js';
 
 require( '../less/styles.less' );
 
@@ -13,13 +13,41 @@ class App extends React.Component {
         super( props );
 
         this.promiseGetRaceEvents = this.promiseGetRaceEvents.bind( this );
-        this.isLocalUpdateTimerStarted = false;
+        this.requestThenUpdate = this.requestThenUpdate.bind( this );
+
+        this.localUpdateTimer = -1;
+        this.selectedRaceType = '';
+        this.allRaceEvents = [];
 
         this.state = {
-            raceEvents: []
+            raceEvents: [],
+            errorMessage: ''
         };
 
-        setInterval( this.promiseGetRaceEvents, 10000 );
+        setInterval( this.requestThenUpdate, 5000 );
+    }
+
+    requestThenUpdate() {
+
+        this.promiseGetRaceEvents()
+            .then( raceEvents => { 
+
+                this.allRaceEvents = raceEvents;
+                this.updateRaceEvents( raceEvents, this.selectedRaceType );
+
+                this.localUpdateTimer = setInterval(
+
+                    () => this.updateRaceEvents( raceEvents, this.selectedRaceType ),
+                    1000
+                );
+            } )
+            .catch( error => {
+
+                this.setState( { 
+
+                    errorMessage: error.message
+                } );
+            } );
     }
 
     promiseGetRaceEvents() {
@@ -28,57 +56,130 @@ class App extends React.Component {
 
         return fetch( url, { mode: 'cors' } )
                 .then( response => {
+
+                    if ( response.status !== 200 ) {
+
+                        throw new Error( 'Failed to get racing events.' );
+                    }
+
+                    try {
+
+                        return response.json();
+                    }
+                    catch ( error ) {
+
+                        throw new Error( 'Reponse is not in JSON format.' );
+                    }
                     
-                    return response.json();
                 } )
                 .then( json => {
 
                     let raceEvents = json.result;
 
-                    this.updateRaceEvents( raceEvents );
+                    if ( Array.isArray( raceEvents ) === false ) {
+
+                        throw new Error( 'Error in data.' );
+                    }
 
                     return raceEvents;
+                } )
+                .catch( error => {
+
+                    throw new Error( error.message );
                 } );
     }
 
-    updateRaceEvents( events ) {
+    filterRaceEvents( raceEvents, type ) {
 
-        let raceEvents = cloneByJSON( events );
+        return  raceEvents.filter( raceEvent => {
 
-        raceEvents.forEach( raceEvent => { 
+                    if ( type !== undefined
+                            && type !== ''
+                            && type !== 'All' 
+                            && raceEvent.EventTypeDesc !== type ) {
 
-            raceEvent.timeLeft = countDown( 
-                new Date(),
-                new Date( raceEvent.AdvertisedStartTime )
-            );
-        } )
+                        return false;
+                    }
+
+                    raceEvent.timeLeft = countDown( 
+                        new Date(),
+                        new Date( raceEvent.AdvertisedStartTime )
+                    );
+
+                    return true;
+
+                } )
+    }
+
+    updateRaceEvents( raceEvents, type ) {
+
+        let filteredRaceEvents = this.filterRaceEvents( raceEvents, type );
 
         this.setState( { 
 
-            raceEvents: raceEvents
+            raceEvents: filteredRaceEvents
         } )
     }
 
     componentDidMount() {
 
-        this.promiseGetRaceEvents()
-            .then( raceEvents => { 
+        this.requestThenUpdate();
+    }
 
-                if ( this.isLocalUpdateTimerStarted === false ) {
+    selectRaceType( type ) {
 
-                    setInterval( () => this.updateRaceEvents( raceEvents ), 1000 )
-                    this.isLocalUpdateTimerStarted = true;
+        this.selectedRaceType = type;
+        let filteredRaceEvents = this.filterRaceEvents( this.allRaceEvents, this.selectedRaceType );
+
+        this.setState( { 
+
+            raceEvents: filteredRaceEvents
+        } )
+    }
+
+    renderPickBar() {
+
+        let raceTypes = [ 'All', 'Thoroughbred', 'Greyhounds', 'Trots' ];
+
+        return  <div className="next-to-jump__pick-bar">
+                {
+                    raceTypes.map( type => {
+
+                        let className = 'next-to-jump__race-type';
+
+                        if ( type === this.selectedRaceType ) {
+
+                            className = `${className} ${className}--active`;
+                        }
+
+                        return  <span key={ type } 
+                                      className={ className }
+                                      onClick={ () => this.selectRaceType( type ) } 
+                                >
+                                    { type === "All" && "All" }
+                                    { type === "Trots" && renderHarnessIcon() }
+                                    { type === "Greyhounds" && renderGreyhoundIcon() }
+                                    { type === "Thoroughbred" && renderHorseIcon() }
+                                </span>
+                    } )
                 }
-            } );
+                </div>
     }
 
     render() {
 
         return  <div className="app">
+                    { 
+                        this.state.errorMessage !== ''
+                            && <div className="error">{ this.state.errorMessage }</div> 
+                    }
                     <div className="main">
                         <div className="next-to-jump">
                             <div className="next-to-jump__header">Next to Jump</div>
                             <div className="next-to-jump__content">
+                                <div className="next-to-jump__pick-bar">
+                                    { this.renderPickBar() }
+                                </div>
                                 <NextToJump raceEvents={ this.state.raceEvents } />
                             </div>
                         </div>

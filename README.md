@@ -3,6 +3,11 @@
 ### Demo
 http://www.runademo.com/beteasy/
 
+Two timers are used
+
+1. Polls the server every 10 seconds
+2. Locally update the count down every 1 second. 
+
 ### Development
 1. Clone the project
 ```

@@ -26,14 +26,15 @@ class App extends React.Component {
             errorMessage: ''
         };
 
-        setInterval( this.requestThenUpdate, 5000 );
+        setInterval( this.requestThenUpdate, 10000 );
     }
 
     requestThenUpdate() {
 
         this.promiseGetRaceEvents( URL )
-            .then( raceEvents => { 
+            .then( raceEvents => {
 
+                clearInterval( this.localUpdateTimer );
                 this.allRaceEvents = raceEvents;
                 this.updateRaceEvents( raceEvents, this.selectedRaceType );
 

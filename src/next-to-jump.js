@@ -41,9 +41,9 @@ export class NextToJump extends React.Component {
 
         return  <div key={ key } className={ className }>
                     <div className={ classNameOfIcon }>
-                        { item.EventType.EventTypeDesc === "Trots" && renderHarnessIcon() }
-                        { item.EventType.EventTypeDesc === "Greyhounds" && renderGreyhoundIcon() }
-                        { item.EventType.EventTypeDesc === "Thoroughbred" && renderHorseIcon() }
+                        { item.EventTypeDesc === "Trots" && renderHarnessIcon() }
+                        { item.EventTypeDesc === "Greyhounds" && renderGreyhoundIcon() }
+                        { item.EventTypeDesc === "Thoroughbred" && renderHorseIcon() }
                     </div>
                     <div className={ classNameOfEventName }>{ item.EventName }</div>
                     <div className={ classNameOfEventVenue }>{ item.Venue.Venue }</div>

@@ -1,0 +1,120 @@
+body {
+
+    margin: 0;
+    padding: 0;
+    background-color: #eeeeee;
+}
+
+.app {
+
+    font-family: Roboto, Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    padding: 12px;
+}
+
+.logo {
+
+    color: #8935c0;
+    padding-left: 15px;
+
+    svg {
+        
+        fill: currentColor;
+        width: 110px;
+        height: 80px;
+    }
+}
+
+.header {
+
+    height: 80px;
+    background-color: white;
+    border-bottom: 1px #dddddd solid;
+    margin-bottom: 5px;
+}
+
+.next-to-jump {
+
+    background-color: white;
+    border-radius: 0 0 4px 4px;
+
+    &__header {
+
+        font-size: 14px;
+        background-color: #8935c0;
+        color: white;
+        border-radius: 4px 4px 0 0;
+        padding: 12px 14px;
+    }
+
+    &__pick-bar {
+
+        display: flex;
+        padding: 10px;
+    }
+
+    &__race-type {
+
+        color: #8935c0;
+        border: 1px solid #65309c;
+        height: 36px;
+        width: 48px;
+        display: inline-block;
+        border-radius: 4px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-right: 5px;
+
+        svg {
+
+            fill: currentColor;
+        }
+    }
+
+    &__list {
+
+        padding: 0 10px;
+
+    }
+
+    &__event {
+
+        border-top: 1px solid #ebedf5;
+        position: relative;
+        height: 70px;
+
+        &__icon {
+
+            position: absolute;
+            left: 0;
+            top: 15px;
+        }
+
+        &__name {
+
+            position: absolute;
+            color: #253b80;
+            top: 15px;
+            left: 50px;
+        }
+
+        &__venue {
+
+            position: absolute;
+            top: 45px;
+            left: 50px;
+            color: #ababab;
+        }
+
+        &__time-left {
+
+            position: absolute;
+            color: #ff4b3d;
+            top: 30px;
+            right: 0;
+            font-weight: 600;
+        }
+    }
+
+}

@@ -3,10 +3,11 @@ import ReactDOM from 'react-dom';
 import { NextToJump } from './next-to-jump.js';
 import { countDown, cloneByJSON, makeClassName } from './util.js';
 import { renderLogo, renderHorseIcon, renderHarnessIcon, renderGreyhoundIcon } from './icons.js';
+import { getConfig } from './conf.js';
 
 require( '../less/styles.less' );
 
-const URL = 'https://s3-ap-southeast-2.amazonaws.com/bet-easy-code-challenge/next-to-jump';
+const URL = getConfig().url
 
 class App extends React.Component {
 

@@ -37,7 +37,7 @@ APP.get( '/next-to-jump', ( request, response ) => {
             EventName: faker.address.streetName(),
             Venue: { Venue: faker.address.city() },
             EventTypeDesc: raceTypes[ Math.floor( Math.random() * raceTypes.length ) ],
-            AdvertisedStartTime: faker.date.between( '2018-12-01', '2018-12-31')
+            AdvertisedStartTime: faker.date.between( '2018-12-01', '2018-12-31' )
         }
 
         raceEvents.result.push( raceEvent );

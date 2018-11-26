@@ -5,7 +5,7 @@
   "repository": "git@github.com:ohxyz/react-get-started.git",
   "scripts": {
     "build": "webpack --config webpack.prod.config.js",
-    "dev": "webpack-dev-server --config webpack.dev.config.js --open",
+    "dev": "webpack-dev-server --config webpack.dev.config.js --open | npm run serve",
     "serve": "node --inspect server/server.js"
   },
   "author": "Ohxyz",

@@ -54,7 +54,7 @@ class App extends React.Component {
 
         let url = 'https://s3-ap-southeast-2.amazonaws.com/bet-easy-code-challenge/next-to-jump';
 
-        return fetch( url, { mode: 'cors' } )
+        return fetch( url, { mode: 'cors', cache: 'no-store' } )
                 .then( response => {
 
                     if ( response.status !== 200 ) {

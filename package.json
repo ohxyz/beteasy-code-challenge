@@ -4,7 +4,7 @@
   "description": "A basic setup development environment of React",
   "repository": "git@github.com:ohxyz/react-get-started.git",
   "scripts": {
-    "build": "webpack --config webpack.dev.config.js",
+    "build": "webpack --config webpack.prod.config.js",
     "dev": "webpack-dev-server --config webpack.dev.config.js --open"
   },
   "author": "Ohxyz",

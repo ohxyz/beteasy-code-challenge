@@ -1,5 +1,8 @@
 # BetEasy code challenge
 
+### Demo
+http://www.runademo.com/beteasy/
+
 ### Build process
 1. Clone the project
 ```

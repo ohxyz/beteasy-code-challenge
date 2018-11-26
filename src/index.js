@@ -6,6 +6,8 @@ import { renderLogo, renderHorseIcon, renderHarnessIcon, renderGreyhoundIcon } f
 
 require( '../less/styles.less' );
 
+const URL = 'https://s3-ap-southeast-2.amazonaws.com/bet-easy-code-challenge/next-to-jump';
+
 class App extends React.Component {
 
     constructor( props ) {
@@ -29,7 +31,7 @@ class App extends React.Component {
 
     requestThenUpdate() {
 
-        this.promiseGetRaceEvents()
+        this.promiseGetRaceEvents( URL )
             .then( raceEvents => { 
 
                 this.allRaceEvents = raceEvents;
@@ -50,9 +52,7 @@ class App extends React.Component {
             } );
     }
 
-    promiseGetRaceEvents() {
-
-        let url = 'https://s3-ap-southeast-2.amazonaws.com/bet-easy-code-challenge/next-to-jump';
+    promiseGetRaceEvents( url ) {
 
         return fetch( url, { mode: 'cors', cache: 'no-store' } )
                 .then( response => {

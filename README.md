@@ -17,6 +17,12 @@ npm i
 npm run dev
 ```
 
+### Test
+A dummy server is used for testing purpose. The main testing purpose should cover following 3 cases
+1. When server's resource has changed, polling should get the new results.
+2. When select a race type, make sure polling will not create a full list of all race types.
+3. When a race type is selected, every time it polls, make sure only selected types are displayed.
+
 ### Build to production
 ```
 npm run build

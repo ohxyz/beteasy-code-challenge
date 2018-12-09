@@ -1,4 +1,4 @@
-# BetEasy code challenge
+# DXC code challenge - BetEasy project
 
 ### Demo
 http://www.runademo.com/beteasy/
